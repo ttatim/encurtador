@@ -1,0 +1,7 @@
+CREATE TABLE links_curto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    url_original VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    link_curto VARCHAR(255) NOT NULL UNIQUE,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
