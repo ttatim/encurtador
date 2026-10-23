@@ -4,6 +4,7 @@ DirectoryIndex index.php
     Require all denied
 </FilesMatch>
 RewriteEngine On
+RewriteRule ^\.(?:git|github)(?:/|$) - [F,L,NC]
 RewriteRule ^(?:config|includes|database|scripts|tests|conexao)(?:/|$) - [F,L,NC]
 RewriteRule ^p/([A-Za-z0-9][A-Za-z0-9_-]{2,49})/?$ preview.php?link=$1 [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
