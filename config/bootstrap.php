@@ -54,7 +54,8 @@ function db(): PDO
 
 if (PHP_SAPI !== 'cli') {
     $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || ($_SERVER['SERVER_PORT'] ?? '') === '443';
+        || ($_SERVER['SERVER_PORT'] ?? '') === '443'
+        || str_starts_with(strtolower(app_env('APP_URL')), 'https://');
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_name('encurtador_session');
         session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => $secure,
