@@ -139,8 +139,11 @@ function safe_image_upload(string $field, string $existing = ''): string
     if (!isset($allowed[$mime])) {
         throw new RuntimeException('Envie uma imagem PNG, JPG, WEBP ou ICO.');
     }
-    if ($allowed[$mime] !== 'ico' && getimagesize($file['tmp_name']) === false) {
-        throw new RuntimeException('O arquivo enviado não é uma imagem válida.');
+    if ($allowed[$mime] !== 'ico') {
+        $dimensions = getimagesize($file['tmp_name']);
+        if ($dimensions === false || $dimensions[0] > 6000 || $dimensions[1] > 6000) {
+            throw new RuntimeException('Imagem inválida ou dimensões maiores que 6000 pixels.');
+        }
     }
     $name = bin2hex(random_bytes(16)) . '.' . $allowed[$mime];
     $directory = dirname(__DIR__) . '/uploads';
