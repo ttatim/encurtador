@@ -1,30 +1,29 @@
 <?php
-include 'conexao/db.php';
-
-if (!$pdo) {
-    die("Erro ao conectar com o banco de dados.");
-}
-
-// Sanitiza a entrada do parâmetro 'link'
-$linkCurto = filter_input(INPUT_GET, 'link', FILTER_SANITIZE_STRING);
-
-if ($linkCurto) {
-    // Busca o link original no banco de dados
-    $stmt = $pdo->prepare("SELECT url_original FROM links_curto WHERE link_curto = ?");
-    $stmt->execute([$linkCurto]);
-    $row = $stmt->fetch();
-
-    if ($row) {
-        // Redireciona para a URL original
-        header("Location: " . $row['url_original']);
-        exit;
-    } else {
-        // Redireciona para uma página de erro personalizada
-        header("Location: /pagina-de-erro.php");
-        exit;
-    }
-} else {
-    // Redireciona para uma página de erro em caso de link inválido
-    header("Location: /pagina-de-erro.php");
+declare(strict_types=1);
+require_once __DIR__ . '/config/bootstrap.php';
+$alias = (string) ($_GET['link'] ?? '');
+if (!validate_alias($alias)) {
+    http_response_code(404);
+    require __DIR__ . '/pagina-de-erro.php';
     exit;
 }
+$stmt = db()->prepare('SELECT id, destination_url, redirect_code FROM links WHERE alias = ? AND is_active = 1 LIMIT 1');
+$stmt->execute([$alias]);
+$link = $stmt->fetch();
+if (!$link || !validate_destination($link['destination_url'])) {
+    http_response_code(404);
+    require __DIR__ . '/pagina-de-erro.php';
+    exit;
+}
+try {
+    db()->beginTransaction();
+    db()->prepare('UPDATE links SET click_count = click_count + 1, last_clicked_at = NOW() WHERE id = ?')->execute([$link['id']]);
+    db()->prepare('INSERT INTO link_visits (link_id, visited_on, referrer_host) VALUES (?, CURRENT_DATE, ?)')->execute([$link['id'], normalized_referrer()]);
+    db()->commit();
+} catch (Throwable $exception) {
+    if (db()->inTransaction()) { db()->rollBack(); }
+    error_log('Click tracking failed for link ' . (int) $link['id']);
+}
+header('Cache-Control: no-store, private');
+header('Location: ' . $link['destination_url'], true, (int) $link['redirect_code'] === 301 ? 301 : 302);
+exit;

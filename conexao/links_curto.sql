@@ -1,7 +1,2 @@
-CREATE TABLE links_curto (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    url_original VARCHAR(255) NOT NULL,
-    descricao VARCHAR(255) NOT NULL,
-    link_curto VARCHAR(255) NOT NULL UNIQUE,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Estrutura antiga substituída. Em instalações novas importe database/schema.sql.
+-- Consulte README.md para migração de dados legados antes de ativar a nova versão.
