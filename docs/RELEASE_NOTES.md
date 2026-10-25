@@ -7,6 +7,7 @@
 - Revalidação do papel no banco em cada requisição autenticada.
 - Bloqueio do rebaixamento do próprio administrador e do último administrador.
 - Validações adicionais e testes unitários puros; banco sem dados demonstrativos.
+- Pipeline CI com MySQL 8 efêmero, importação de schema e teste de integração transacional para usuários, links, isolamento, cliques e aliases únicos.
 
 ## Atenções
 
@@ -14,7 +15,7 @@
 2. Não há migração SQL nesta versão. Faça backup antes de atualizar os arquivos.
 3. Senhas iniciais precisam ser transmitidas por canal seguro. Convites, recuperação e 2FA pendentes.
 4. Trocar senha não revoga automaticamente outras sessões. Implementar revogação de sessões.
-5. Testes completos com Apache/MySQL e implantação real ainda pendentes.
+5. Testes de integração MySQL automatizados incluídos no CI. Testes HTTP/Apache, upload e implantação real continuam pendentes.
 6. Controle de tentativas de troca de senha é por sessão; use proteção adicional de borda.
 
 ## Servidor

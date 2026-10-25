@@ -36,7 +36,7 @@ Encurtador gratuito em **PHP 8.3 procedural**, sem framework ou orientação a o
 
 ### Testes
 
-Execute php tests/smoke.php e find . -name '*.php' -print0 | xargs -0 -n1 php -l. Testes de integração (login, upload, MySQL, Apache e HTTP) exigem um ambiente configurado e **não** são cobertos pelo smoke test.
+Execute php tests/smoke.php e find . -name '*.php' -print0 | xargs -0 -n1 php -l. O pipeline GitHub Actions executa smoke test e **testes de integração MySQL** em banco efêmero, incluindo criação de usuário/link, isolamento por proprietário, registro de acesso e alias duplicado. O teste pode ser executado localmente com um banco de teste vazio configurado via variáveis DB_*: `php tests/integration.php`. Os dados do teste são revertidos por transação. Testes de interface, upload e Apache/HTTP ainda exigem ambiente adicional.
 
 ### Migração do protótipo 2025
 
