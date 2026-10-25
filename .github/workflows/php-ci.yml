@@ -7,6 +7,28 @@ on:
 jobs:
   php-checks:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: encurtador_test
+          MYSQL_USER: encurtador
+          MYSQL_PASSWORD: test_password
+          MYSQL_ROOT_PASSWORD: root_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -u root -proot_password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_NAME: encurtador_test
+      DB_USER: encurtador
+      DB_PASS: test_password
+      APP_URL: http://localhost
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -16,5 +38,11 @@ jobs:
           coverage: none
       - name: PHP syntax
         run: find . -name '*.php' -print0 | xargs -0 -n1 php -l
-      - name: Smoke tests
+      - name: Pure-function smoke tests
         run: php tests/smoke.php
+      - name: Install MySQL client
+        run: sudo apt-get update -qq && sudo apt-get install -y default-mysql-client
+      - name: Create database schema
+        run: mysql --host=127.0.0.1 --user=encurtador --password=test_password encurtador_test < database/schema.sql
+      - name: Database integration tests
+        run: php tests/integration.php

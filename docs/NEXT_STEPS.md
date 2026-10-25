@@ -11,7 +11,7 @@
 
 ## Backlog priorizado
 
-1. Testes de integração com MySQL e Apache em ambiente isolado.
+1. Testes HTTP/Apache, upload e autenticação end-to-end em ambiente isolado (integração MySQL automatizada entregue).
 2. Recuperação de senha com token de uso único e 2FA.
 3. Convites por e-mail, suspensão de contas, auditoria e revogação de sessões.
 4. Proteção anti-abuso e rate limiting distribuído.
