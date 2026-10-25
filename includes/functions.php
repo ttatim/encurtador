@@ -68,6 +68,35 @@ function require_login(): void
     if (!logged_in()) {
         redirect_to('/login.php');
     }
+    $stmt = db()->prepare('SELECT name, role FROM users WHERE id = ? LIMIT 1');
+    $stmt->execute([current_user_id()]);
+    $user = $stmt->fetch();
+    if (!$user) {
+        $_SESSION = [];
+        session_regenerate_id(true);
+        redirect_to('/login.php');
+    }
+    $_SESSION['user_name'] = (string) $user['name'];
+    $_SESSION['user_role'] = (string) $user['role'];
+}
+
+function require_admin(): void
+{
+    require_login();
+    if (($_SESSION['user_role'] ?? '') !== 'admin') {
+        http_response_code(403);
+        exit('Acesso restrito ao administrador.');
+    }
+}
+
+function valid_user_email(string $email): bool
+{
+    return strlen($email) <= 190 && (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function valid_user_password(string $password): bool
+{
+    return strlen($password) >= 12 && strlen($password) <= 200;
 }
 
 function current_user_id(): int

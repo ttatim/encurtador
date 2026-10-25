@@ -20,6 +20,8 @@ Encurtador gratuito em **PHP 8.3 procedural**, sem framework ou orientação a o
 - /link-form.php: criar/editar link, escolher alias, imagem, título, descrição, status e redirecionamento 301/302.
 - /stats.php?id=123: estatísticas diárias e principais origens do link pertencente ao usuário.
 - /settings.php: identidade visual (somente administradores).
+- /users.php: criação manual de usuários e gerenciamento de perfis admin/editor (somente administradores).
+- /account.php: alteração de senha mediante confirmação da senha atual.
 - /alias: redirecionamento direto, com registro de acesso.
 - /p/alias: página opcional de pré-visualização com Open Graph; **o redirecionamento direto não fornece cartões Open Graph a redes sociais**.
 
@@ -42,7 +44,7 @@ A tabela antiga links_curto não é compatível diretamente com o esquema novo. 
 
 ### Próximas melhorias
 
-Autenticação com recuperação de senha e 2FA; gerenciamento de usuários e permissões; relatórios gráficos/exportação CSV; QR Codes; expiração e limites de cliques; proteção anti-phishing; links com domínio customizado; API com tokens e rate limit; integração de testes HTTP/CI; paginação avançada; política de retenção de métricas e exclusão de uploads órfãos.
+Autenticação com recuperação de senha e 2FA; convites por e-mail e revogação de sessões; relatórios gráficos/exportação CSV; QR Codes; expiração e limites de cliques; proteção anti-phishing; links com domínio customizado; API com tokens e rate limit; integração de testes HTTP/CI; paginação avançada; política de retenção de métricas e exclusão de uploads órfãos.
 
 ## Estrutura
 
@@ -54,3 +56,7 @@ Autenticação com recuperação de senha e 2FA; gerenciamento de usuários e pe
 - assets/ — CSS e JavaScript do layout.
 
 **Sem cobrança, sem dados de demonstração e sem frameworks PHP.**
+
+### Gestão de usuários (25/10/2026)
+
+Administradores criam usuários manualmente em /users.php e definem perfis administrador ou editor. Cada usuário altera a própria senha em /account.php, confirmando a senha atual. O perfil é atualizado a partir do banco em cada requisição autenticada. É proibido rebaixar o próprio administrador ou o último administrador. A senha inicial deve ser entregue por canal seguro; convites por e-mail e recuperação de senha ainda não foram implementados. Esta entrega não altera o esquema SQL.
