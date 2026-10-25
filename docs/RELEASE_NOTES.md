@@ -1,4 +1,29 @@
-# Informações da versão — 23/10/2026
+# Informações da versão — 25/10/2026
+
+## Versão 0.2.0 — administração de usuários
+
+- Cadastro administrativo de usuários com perfis admin/editor, sem cadastro público.
+- Alteração da própria senha mediante verificação da senha atual e limite de tentativas por sessão.
+- Revalidação do papel no banco em cada requisição autenticada.
+- Bloqueio do rebaixamento do próprio administrador e do último administrador.
+- Validações adicionais e testes unitários puros; banco sem dados demonstrativos.
+
+## Atenções
+
+1. Crítico: credencial de banco exposta em 2025 permanece no histórico Git. Rotacione-a no servidor.
+2. Não há migração SQL nesta versão. Faça backup antes de atualizar os arquivos.
+3. Senhas iniciais precisam ser transmitidas por canal seguro. Convites, recuperação e 2FA pendentes.
+4. Trocar senha não revoga automaticamente outras sessões. Implementar revogação de sessões.
+5. Testes completos com Apache/MySQL e implantação real ainda pendentes.
+6. Controle de tentativas de troca de senha é por sessão; use proteção adicional de borda.
+
+## Servidor
+
+Apache 2.4+ com mod_rewrite, PHP 8.3 procedural com pdo_mysql, mbstring, fileinfo e session; MySQL 8+/MariaDB 10.6+, HTTPS, uploads gravável. Bootstrap 5 via CDN. Não requer Laravel, Composer, Node.js ou TypeScript.
+
+---
+
+## Histórico — 23/10/2026
 
 ## Entrega 0.1.0 (MVP inicial)
 

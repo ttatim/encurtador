@@ -33,7 +33,11 @@ function render_header(string $pageTitle, string $active = ''): void
       <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
         <?php if (logged_in()): ?>
           <a class="nav-link <?= $active === 'dashboard' ? 'active' : '' ?>" href="/dashboard.php">Meus links</a>
+          <?php if (($_SESSION['user_role'] ?? '') === 'admin'): ?>
+          <a class="nav-link <?= $active === 'users' ? 'active' : '' ?>" href="/users.php">Usuários</a>
           <a class="nav-link <?= $active === 'settings' ? 'active' : '' ?>" href="/settings.php">Configurações</a>
+          <?php endif; ?>
+          <a class="nav-link <?= $active === 'account' ? 'active' : '' ?>" href="/account.php">Minha conta</a>
           <form action="/logout.php" method="post" class="m-0"><?= csrf_field() ?><button type="submit" class="btn btn-outline-secondary btn-sm ms-lg-2">Sair</button></form>
         <?php else: ?>
           <a class="btn btn-primary btn-sm px-4 ms-lg-2" href="/login.php">Acessar painel</a>

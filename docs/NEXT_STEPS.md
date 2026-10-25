@@ -13,7 +13,7 @@
 
 1. Testes de integração com MySQL e Apache em ambiente isolado.
 2. Recuperação de senha com token de uso único e 2FA.
-3. Gestão de usuários, papéis e convites.
+3. Convites por e-mail, suspensão de contas, auditoria e revogação de sessões.
 4. Proteção anti-abuso e rate limiting distribuído.
 5. Estatísticas gráficas e exportação CSV.
 6. QR Code, expiração de links, limite de acessos e agendamento.
